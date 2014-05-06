@@ -1,0 +1,13 @@
+{
+  "name": "Chatroom",
+  "version": "0.0.1",
+  "dependencies": {
+    "requirejs": "~2.1.11",
+    "foundation": "zurb/bower-foundation",
+    "font-awesome": "~4.0.2",
+    "angular-resource": "~1.2.14",
+    "angular-route": "~1.2.14",
+    "angular-sanitize": "~1.2.14",
+    "angular-socket-io": "~0.4.0"
+  }
+}

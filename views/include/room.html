@@ -1,0 +1,42 @@
+<div id="room">
+  
+  <div class="row">
+
+    <div class="large-4 columns" id="in">
+      <div class="row">
+        <div class="small-12 columns">
+          <h2 class="light-text">room<b>{{roomID}}</b></h2>
+          <h2 class="light-text">nick<b>{{user.nick}}</b></h2>
+          <h2 class="light-text hide-for-large-up">users<b>{{users.length}}</b></h2>
+          <h2 class="light-text  hide-for-medium-down">
+            <b>users</b><span class="smaller-text"
+                              ng-repeat="user in users">{{user.nick}}{{$last? '' : ','}}
+            </span>
+          </h2>
+        </div>
+      </div>
+      
+      <div id="user_input" user-input>
+        <form name="nick_form" novalidate ng-submit="nick_form.$valid && submitNick()">
+          <div class="row">
+            <div class="small-12 columns">
+              <input type="text" placeholder="nickname" ng-blur="nick_form.$valid && submitNick()" ng-model="nick" ng-maxlength="20" required />
+            </div>
+          </div>
+        </form>
+        <form name="new_message_form" ng-submit="new_message_form.$valid && submitMessage()">
+          <div class="row">
+            <div class="small-12 columns">
+              <input type="text" placeholder="message" ng-model="message" ng-minlength="2" required />
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+    
+    <div class="large-8 columns" id="out" chat>
+    </div>
+  </div>
+  
+</div>

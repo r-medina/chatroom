@@ -1,0 +1,28 @@
+<div class="row" id="index">
+  <div class="large-4 columns" id="in">
+    <div class="row">
+      <div class="small-12 columns">
+        <h2 class="light-text"><a ng-click="newRoom()" new-room>new<b>chatroom</b></a></h2>
+      </div>
+    </div>
+    
+    <form novalidate name="join_form" ng-submit="submit()" id="user_input">
+      <div class="row">
+        <div class="small-12 columns">
+          <label>
+            <h2 class="light-text">join<b>chatroom</b></h2>
+            <input type="text" placeholder="room number" ng-model="roomID" />
+            <input type="submit" value="join" class="button expand tiny black" />
+          </label>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+
+  <div class="large-8 columns" id="out">
+    <li ng-repeat="room in rooms | filter:{ roomID: roomID }">
+      <p>room<b> <a href="/#/r/{{room.roomID}}" class="room-link">{{room.roomID}}</a>: </b>users<b> {{room.users}}</b></p>
+    </li>
+  </div>
+</div>

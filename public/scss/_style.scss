@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    max-width: 100%;
+}
+
+body {
+    display: block;
+    background-color: $white;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+body, html, section, #wrapper {
+    height: 100%;
+}
+
+p {
+    margin-top: .4em;
+    margin-bottom: .4em;
+}
+
+p:first-of-type {
+    margin-top: 0px;
+}
+
+p:last-of-type {
+    margin-bottom: 0px;
+}
+
+
+#room {
+    height: 100%;
+
+}
+
+.row {
+    height: 100%;
+}
+
+#user_input {
+}
+
+#out {
+    font-family: 'Ubuntu Mono', sans-serif;
+    height: 70%;
+    overflow-y: scroll;
+    background-color: $black;
+    color: $white;
+
+    @media #{$large-up} {
+        height: 100%;
+    }
+}
+
+
+
+li {
+    list-style-type: none;
+}
+
+.light-text {
+    font-weight: 100;
+}
+
+.smaller-text {
+    font-size: .65em;
+}
+
+.inline {
+    display: inline;
+}
+
+a.room-link{
+    color: $blue;
+    text-decoration: underline;
+}
