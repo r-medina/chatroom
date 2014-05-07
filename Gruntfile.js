@@ -1,8 +1,10 @@
 'use strict';
 
+var initDB = require('./lib/initDB.js');
+
 module.exports = function (grunt) {
   var reloadPort = 35729;
-  require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   grunt.initConfig({
     develop: {
       server: {
@@ -62,6 +64,9 @@ module.exports = function (grunt) {
     },
     compass: {
       dist: {}
+    },
+    db: {
+      init: initDB
     }
   });
 
@@ -70,4 +75,7 @@ module.exports = function (grunt) {
     'watch'
   ]);
 
+  grunt.registerMultiTask('db', function() {
+    this.data();
+  });
 };
