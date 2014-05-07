@@ -4,7 +4,7 @@
   "private": "true",
   "description": "A web-based chatroom server.",
   "author": "r-medina",
-  "version": "0.0.1-7",
+  "version": "0.0.1-8",
   "main": "server.js",
   "scripts": {
     "start": "node ./server.js",
