@@ -9,7 +9,7 @@ mainControllers.controller('IndexCtrl', [
   function IndexCtrl($rootScope, $scope, $location, socket, Rooms, RoomID) {
     // get list of available rooms
     var updateRooms = function() {
-      $scope.rooms = Rooms.query();
+      $scope.rooms = Rooms.active();
     };
 
     updateRooms();
@@ -54,10 +54,28 @@ mainControllers.controller('IndexCtrl', [
 mainControllers.controller('RoomCtrl', [
   '$rootScope', '$scope', '$routeParams', 'socket', 'Rooms',
   function RoomCtrl($rootScope, $scope, $routeParams, socket, Rooms) {
+    // saving the room ID
+    $scope.roomID = $routeParams.roomID;
+    $scope.rooms = Rooms.all();
+    $scope.rooms.$promise.then(function(rooms) {
+      console.log(rooms);
+      for (var i = 0; i < rooms.length; i++) {
+        if (rooms[i].roomID == $scope.roomID) return;
+      }
+
+      socket.emit('room:new', $scope.roomID);  
+    });
+
+    $rootScope.title += ' '  + $scope.roomID;
+
+    // the current user
+    $scope.user = {nick: ''};
+    socket.emit('room:join', $scope.roomID);
+
     // user send message
     var sendMessage = function(message) {
       socket.emit('message:send', {
-        roomID: $scope.roomID,          
+        roomID: $scope.roomID,
         user: $scope.user,
         body: message,
         timestamp: Date()
@@ -66,22 +84,12 @@ mainControllers.controller('RoomCtrl', [
 
     // load in the names of the users in the room
     var updateUsers = function() {
-      $scope.users = Rooms.get({
+      $scope.users = Rooms.active({
         roomID: $scope.roomID
       });
     };
 
-    // the current user
-    $scope.user = {nick: ''};
-
-    // saving the room ID
-    $scope.roomID = $routeParams.roomID;
-    $rootScope.title += ' '  + $scope.roomID;    
-
-    socket.emit('room:join', $scope.roomID);
-
     // event listeners: all pretty self-explanatory
-
     socket.on('room:joined', function(data) {
       $scope.addMessage(data.message);
       updateUsers();

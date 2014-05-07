@@ -41,9 +41,6 @@ io.sockets.on('connection', function(socket) {
     // i want the web app to work completely independantly of whether the db calls
     // are/aren't, so i'm not putting this in a callback
     socket.emit('room:created', roomID);
-
-    // add room to db
-    db.addRoom(roomID);
   });
 
   // when a user tries to join a room
