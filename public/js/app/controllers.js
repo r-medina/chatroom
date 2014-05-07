@@ -58,7 +58,6 @@ mainControllers.controller('RoomCtrl', [
     $scope.roomID = $routeParams.roomID;
     $scope.rooms = Rooms.all();
     $scope.rooms.$promise.then(function(rooms) {
-      console.log(rooms);
       for (var i = 0; i < rooms.length; i++) {
         if (rooms[i].roomID == $scope.roomID) return;
       }
