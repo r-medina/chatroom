@@ -13,12 +13,13 @@ mainServices.factory('socket', function(socketFactory) {
 });
 
 mainServices.factory('Rooms', ['$resource', function($resource) {
-  return $resource('/rooms/:roomID', {}, {
-    query: {method: 'GET', isArray: true},
-    get: {method: 'GET', isArray: true}
+  return $resource('/:api/rooms/:roomID', {}, {
+    active: {method: 'GET', isArray: true},
+    all: {method: 'GET', isArray: true}
+    // all: {method: 'GET', params: {api: 'api'}, isArray: true}
   });
 }]);
 
 mainServices.factory('RoomID', ['$resource', function($resource) {
-  return $resource('/roomid/');
+  return $resource('/roomid');
 }]);
