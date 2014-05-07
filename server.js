@@ -1,9 +1,10 @@
+/* all db specific code is being commented out so i can deploy to jitsu */
 var express = require('express'),
     app     = express(),
     server  = require('http').createServer(app),
     path    = require('path'),
     io      = require('socket.io').listen(server),
-    db      = require('./lib/database'),
+    // db      = require('./lib/database'),
     genID   = require('./lib/genID');
 
 
@@ -43,7 +44,7 @@ io.sockets.on('connection', function(socket) {
     socket.emit('room:created', roomID);
 
     // add room to db
-    db.addRoom(roomID);
+    // db.addRoom(roomID);
   });
 
   // when a user tries to join a room
@@ -61,16 +62,16 @@ io.sockets.on('connection', function(socket) {
 
         // this is kind of ghetto, but it will show a user all the previous messages
         // when they join a new room
-        db.getMessages(roomID, function(messages) {
-          messages.messages.map(function(message) {
-            if (!message.body.contains('left') && !message.body.contains('joined')) {
-              socket.emit('message:new', {
-                user: {nick: message.nick},
-                body: message.body,
-                timestamp: message.timestamp
-              });
-            }
-          });
+        // db.getMessages(roomID, function(messages) {
+        //   messages.messages.map(function(message) {
+        //     if (!message.body.contains('left') && !message.body.contains('joined')) {
+        //       socket.emit('message:new', {
+        //         user: {nick: message.nick},
+        //         body: message.body,
+        //         timestamp: message.timestamp
+        //       });
+        //     }
+        //   });
                                
           // let everyone in the room know there's a new user
           socket.broadcast.to(roomID).emit('user:new', {
@@ -89,8 +90,8 @@ io.sockets.on('connection', function(socket) {
           io.sockets.emit('room:updated');
 
           // add messge to db
-          db.addMessage(message);
-        });
+          // db.addMessage(message);
+        // });
       }
     });
   });
@@ -120,7 +121,7 @@ io.sockets.on('connection', function(socket) {
           });
 
           // add it to db
-          db.addMessage(message);
+          // db.addMessage(message);
         });
       }
       else {
@@ -151,7 +152,7 @@ io.sockets.on('connection', function(socket) {
           });
 
           // add it to db
-          db.addMessage(message);
+          // db.addMessage(message);
         });
       }
       else {
@@ -167,7 +168,7 @@ io.sockets.on('connection', function(socket) {
         // send it to everyone in the room (including them)
         io.sockets.in(message.roomID).emit('message:new', message);
 
-        db.addMessage(message);
+        // db.addMessage(message);
       }
       else {
         console.log(err);
@@ -230,11 +231,12 @@ app.get('/rooms', function(req, res) {
 
 // for getting a valid room id
 app.get('/roomid', function(req, res) {
-  db.getRooms(function(rooms) {
+  // db.getRooms(function(rooms) {
     res.send({
-      roomID: genID(rooms)
+      // roomID: genID(rooms)
+      roomID: genID([])
     });
-  });
+  // });
 });
 
 
@@ -242,36 +244,36 @@ app.get('/roomid', function(req, res) {
 
 
 // for restful-y getting a list of all the rooms ever + how many messages they have
-app.get('/api/rooms', function(req, res) {
-  var roomsRes = [];
+// app.get('/api/rooms', function(req, res) {
+//   var roomsRes = [];
 
-  // gets a list of room objects which only have an id property
-  db.getRooms(function(rooms) {
-    // i'll just be mapping an async function across all the elements on an array nbd
-    rooms.map(function(room) {
-      // for each room, call getMessageCount on its id
-      db.getMessageCount(room.roomID, function(count) {
-        room.messageCount = count;
-        // when you have the count, push it to the response array
-        roomsRes.push(room);
+//   // gets a list of room objects which only have an id property
+//   db.getRooms(function(rooms) {
+//     // i'll just be mapping an async function across all the elements on an array nbd
+//     rooms.map(function(room) {
+//       // for each room, call getMessageCount on its id
+//       db.getMessageCount(room.roomID, function(count) {
+//         room.messageCount = count;
+//         // when you have the count, push it to the response array
+//         roomsRes.push(room);
 
-        // send a response when the mapping is done
-        if (roomsRes.length === rooms.length) {
-          res.send(roomsRes);
-        }
-      });
-    });
-  });  
-});
+//         // send a response when the mapping is done
+//         if (roomsRes.length === rooms.length) {
+//           res.send(roomsRes);
+//         }
+//       });
+//     });
+//   });  
+// });
 
 // gets all the messages in a room
-app.get('/api/rooms/:roomID', function(req, res) {
-    var roomID = req.params.roomID;
+// app.get('/api/rooms/:roomID', function(req, res) {
+//     var roomID = req.params.roomID;
 
-    db.getMessages(roomID, function(messages) {
-      res.send(messages);
-    });
-});
+//     db.getMessages(roomID, function(messages) {
+//       res.send(messages);
+//     });
+// });
 
 server.listen(app.get('port'));
 console.log('Express server listening on port ' + app.get('port'));

@@ -8,7 +8,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./server.js",
-    "postinstall": "./node_modules/bower/bin/bower install; node ./lib/initDB.js"
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "engines": {
     "node": "~0.10.21",
@@ -22,9 +22,7 @@
     "express": "3.0.x",
     "socket.io": "~0.9.16",
     "bower": "~1.2.8",
-    "npm": "~1.4.4",
-    "any-db": "~2.1.0",
-    "any-db-sqlite3": "~2.1.1"
+    "npm": "~1.4.4"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
