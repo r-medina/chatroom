@@ -141,10 +141,8 @@ mainControllers.controller('RoomCtrl', [
 
     $scope.submitNick = function() {
       $scope.nick_form.nick.$setValidity('original', (function() {
-        console.log('aa');
         for (var i = 0; i < $scope.users.length; i++) {
           if ($scope.users[i].nick == $scope.nick) {
-            console.log($scope.users[i].nick)
             return false;
           }
         }
@@ -154,7 +152,6 @@ mainControllers.controller('RoomCtrl', [
 
       // to avoid repeated new nicks if the user focuses on field
       if ($scope.nick_form.nick.$valid && $scope.nick != $scope.user.nick) {
-        console.log('a');
         // save old nick for message
         $scope.user.oldNick = $scope.user.nick;
         $scope.user.nick = $scope.nick;
@@ -164,7 +161,6 @@ mainControllers.controller('RoomCtrl', [
         updateUsers();
       }
       else {
-        console.log('b');
         $scope.nick = $scope.user.nick
       }
     };
