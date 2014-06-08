@@ -3,6 +3,7 @@ var express = require('express'),
     server  = require('http').createServer(app),
     path    = require('path'),
     io      = require('socket.io').listen(server),
+    color   = require('./public/components/randomColor/randomColor'),
     db      = require('./lib/database'),
     genID   = require('./lib/genID');
 
@@ -33,7 +34,7 @@ app.configure(function() {
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 
 // user object for sending system messages
-var user = {nick: '*chatroom*'};
+var user = {nick: '*chatroom*', color: color.randomColor({luminosity: 'light'})};
 
 // when client is opened
 io.sockets.on('connection', function(socket) {
@@ -62,7 +63,7 @@ io.sockets.on('connection', function(socket) {
           messages.messages.map(function(message) {
             if (!message.body.contains('left') && !message.body.contains('joined')) {
               socket.emit('message:new', {
-                user: {nick: message.nick},
+                user: {nick: message.nick, color: message.color},
                 body: message.body,
                 timestamp: message.timestamp
               });
@@ -79,7 +80,8 @@ io.sockets.on('connection', function(socket) {
             message: {
               user: user,
               body: 'welcome to room ' + roomID,
-              timestamp: Date()
+              timestamp: Date(),
+              color: color.randomColor({luminosity: 'light'})
             }
           });
           // makes clients at the home page update
@@ -163,7 +165,7 @@ io.sockets.on('connection', function(socket) {
       if (roomID) {
         // send it to everyone in the room (including them)
         io.sockets.in(message.roomID).emit('message:new', message);
-
+        console.log(message)
         db.addMessage(message);
       }
       else {

@@ -91,6 +91,7 @@ mainControllers.controller('RoomCtrl', [
     // event listeners: all pretty self-explanatory
     socket.on('room:joined', function(data) {
       $scope.addMessage(data.message);
+      $scope.user.color = data.message.color;
       updateUsers();
     });
 
@@ -139,8 +140,18 @@ mainControllers.controller('RoomCtrl', [
     };
 
     $scope.submitNick = function() {
+      $scope.nick_form.nick.$setValidity('original', (function() {
+        for (var i = 0; i < $scope.users.length; i++) {
+          if ($scope.users[i].nick == $scope.nick) {
+            return false;
+          }
+        }
+
+        return true;
+      })());
+
       // to avoid repeated new nicks if the user focuses on field
-      if ($scope.nick != $scope.user.nick) {
+      if ($scope.nick_form.nick.$valid && $scope.nick != $scope.user.nick) {
         // save old nick for message
         $scope.user.oldNick = $scope.user.nick;
         $scope.user.nick = $scope.nick;
@@ -148,6 +159,9 @@ mainControllers.controller('RoomCtrl', [
         socket.emit('user:named', {user: $scope.user});
         // update the users in the dom
         updateUsers();
+      }
+      else {
+        $scope.nick = $scope.user.nick
       }
     };
 

@@ -20,7 +20,7 @@
         <form name="nick_form" novalidate ng-submit="nick_form.$valid && submitNick()">
           <div class="row">
             <div class="small-12 columns">
-              <input type="text" placeholder="nickname" ng-blur="nick_form.$valid && submitNick()" ng-model="nick" ng-maxlength="20" required />
+              <input type="text" name="nick" placeholder="nickname" ng-blur="nick_form.$valid && submitNick()" ng-model="nick" ng-maxlength="20" required />
             </div>
           </div>
         </form>
